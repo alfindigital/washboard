@@ -2,7 +2,7 @@
 
 > Evidence before conviction.
 
-Board forensic multi-token: menandai **turnover yang tak sepadan dengan kerumunan yang dilaporkan** (`TURNOVER_ANOMALY`) dan **pump tanpa kerumunan** (`EMPTY_ROOM` / `FADING_CROWD`) — dua lensa independen, bukan satu skor.
+Board forensic multi-token: menandai **turnover yang tak sepadan dengan kerumunan yang dilaporkan** (`TURNOVER_ANOMALY`) dan **pump tanpa kerumunan** (`EMPTY_ROOM` / `FADING_CROWD`) — dua lensa terpisah atas input yang sama (`ut24h`, volume) — bukan satu skor, dan bukan bukti independen.
 
 Merger dari `ideas/LiquidityGap` (#15) + `ideas/FundingSpot` (#19). Kontrak engine: `../ideas/LiquidityGap-plan.md`, `../ideas/FundingSpot-plan.md`.
 

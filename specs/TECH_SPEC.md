@@ -136,10 +136,13 @@ interface WindowStat { timeSec, changePct, txns, buyTxns, sellTxns, uniqueTrader
 ### 2.5 Flag/Band types
 
 ```typescript
-interface PercentileBands { ut25:number; ut75:number; ratio50:number; ratio75:number; ratio95:number; upt75:number; n:number; globalFallback:boolean }
+// Canonical (src/types.ts — synced 2026-09-30):
+interface UniverseBands { n:number; asOf:string; sha256:string; scope:'global'|'chain'; ut25:number; ut50:number; ratio75:number; ratio95:number; usdPerTrader75:number; churn75:number|null; utVals:number[]; ratioVals:number[]; uptVals:number[] }
+// Denominator = PEER SET = eligible ∧ !excluded-class (n=834 on 2026-09-30 snapshot;
+// eligible-only n=1083 kept as stat, not the band denominator).
 type GapState='TURNOVER_ANOMALY'|'CROWDED_TAPE'|'ACTIVE_THIN'|'DORMANT'|'BELOW_FLOOR'|'NO_DATA'|'EXCLUDED'
-type FundingState='EMPTY_ROOM'|'FADING_CROWD'|'NO_MOVE'|'INSUFFICIENT'|'CLEAN'
-type Level='INFO'|'WARN'|'DANGER'
+type FlagState='EMPTY_ROOM'|'CROWDED'|'FADING'|'HOLDING'|'NO_MOVE'|'INSUFFICIENT'  // shipped names
+type GapLevel='CLEAN'|'INFO'|'WARN'|'DANGER'; FundingLevel='CLEAN'|'WARN'|'DANGER'|'INSUFFICIENT'
 ```
 
 Constants (no magic numbers in evaluators): `ELIGIBLE={V_MIN:5000,LIQ_MIN:500,MIN_SAMPLE:30}` · `GAP_QUADRANT` per plan · `FUNDING_THRESHOLDS` per FundingSpot-plan §4 verbatim · `DORMANT={MIN_LIQ_USD:5000,MAX_VOL_USD:200,LOOKBACK_DAYS:7}`.
@@ -229,19 +232,19 @@ export const UniverseFileSchema = z.object({ version: z.literal(1), capturedAt: 
 
 ### 6.2 Golden vectors (dipin dari snapshot riil — `liquiditygap-universe-2026-09-30.json`)
 
-| # | Token/Case | Input (ringkas) | Expected |
-| #1 | DOGE-clone SOL `CNcoV…` | r=24.7, ut=6, v=$299k, liq=$12k | GAP DANGER + ratio>chain-p95 tercatat di reasons |
-| #2 | INU-clone SOL `6VwT7…` | r=50.5, ut=29, liq=$797 | GAP DANGER |
-| #3 | `2ZrJY…` SOL | r=11.7, ut=149 | GAP WARN |
-| #4 | Base cohort ~8 token | r∈[8,12], ut≈29, age 0–1d | ≥1 Wave{size≥4} + members flagged |
-| #5 | FARTCOIN | r=0.49, ut=3172, pc=+8.3% | CROWDED_TAPE, no EMPTY_ROOM |
-| #6 | JUP | r=2.07, ut=58057 | CLEAN |
-| #7 | AAVE | r=1.42, ut=3105, $/t=$20k, mc=$4.3B | mature → cap INFO, bukan EMPTY_ROOM |
-| #8 | ADO `J9B6M…` | pc=+10.5%, ut=5 | EMPTY_ROOM DANGER (board preview) |
-| #9 | DUA token | v=0, liq=$31k | DORMANT |
-| #10 | weETH | wrapped | EXCLUDED |
-| #11 | TITANO `46Vsf…` | ut=null | NO_DATA, EXPLAIN |
-| #12 | GNS drill (bundle) | ut=176, pace<1, pc1h/pc4h<0, pc24h>0 | EMPTY_ROOM+FADING dual (drill) |
+| # | Token/Case | Input (ringkas) | Expected (verified post-audit, peer-set bands) |
+| #1 | DOGE-clone SOL `CNcoV…` | r=24.7, ut=6, v=$299k, liq=$12k | TURNOVER_ANOMALY **WARN** — r≥SOL p75 (4.13) ∧ ut≤p25 (112), tapi r<SOL p95 (50.55) → bukan DANGER. *(spec lama "DANGER" salah — percentile-only)* |
+| #2 | INU-clone SOL `6VwT7…` | r=50.5, ut=29 | WARN — r tepat di bawah SOL p95 (50.548); INU lain (r=630, ut=2387) → CROWDED_TAPE |
+| #3 | Base `67OHIO` | r=11.26, ut=31 | DANGER — Base peer p95=9.73 < r ∧ ut=31 ≤ Base p25=41 |
+| #4 | Base same-shape cluster | r∈[8,12], ut≈29, age 0–1d | **dua Wave{size≥4}** terpisah oleh ratio-band — bukan satu wave-8 (8 simbol = 9 address) |
+| #5 | JUP/Solana | r=2.06, ut=7520 (snapshot ini) | no flag — crowded/clean |
+| #6 | AAVE-class mature | mc ≥$100M | DANGER→WARN cap (arb/MM flow thin-ut by design) |
+| #7 | ADO `J9B6M…` ETH | pc=+10.5%, ut=5, v=$1.6k | BELOW_FLOOR (gap) + EMPTY_ROOM flag tetap terbit — board ER sengaja floor-free; label state-nya |
+| #8 | sUSDe ETH · Robinhood NVDA | stable · venue-equity | EXCLUDED — dan **keluar dari peer-set denominator** (peer n=834, bukan 1.083) |
+| #9 | MTRG | v=0, liq=$21.7M | DORMANT |
+| #10 | Fantom O3 / TITANO | fields null | NO_DATA |
+| #11 | BSC DOGE dust | v=$20, liq=$884 | BELOW_FLOOR |
+| #12 | drill thin-ut + decaying | ut=30, pace=0.4×, pc1h/pc4h<0, pc24h>0 | EMPTY_ROOM DANGER + FADING DANGER (drill) |
 
 ### 6.3 Regression gate
 - Percentile bands dihitung di-harvest → snapshot `ratio50/75/95, ut25/75, upt75` diverifikasi ulang dalam test terhadap `bands` artifact (harvest salah hitung = test merah).

@@ -107,7 +107,7 @@ export function evalFunding(input: FundingInput): FundingResult {
     }
     emptyRoom = level === null
       ? flag("CROWDED", "CLEAN", [...erReasons, "participation breadth adequate for the move"], "invalid if trader breadth falls to p25")
-      : flag("EMPTY_ROOM", level, erReasons, "invalid if reported unique traders rise above p50 of peers");
+      : flag("EMPTY_ROOM", level, erReasons, "invalid if trader breadth rises above p25 AND $/trader falls below p75 — both branches must clear");
   }
 
   // ---- Flag B: FADING_CROWD (guard: pc24h ≥ +2%) ----
@@ -124,7 +124,7 @@ export function evalFunding(input: FundingInput): FundingResult {
     if (pc1h < 0 && pc4h < 0 && pace4h < FUNDING_THRESHOLDS.fadingPace) {
       fadingCrowd = flag("FADING", "DANGER", [
         `green 24h (+${(pc24h * 100).toFixed(1)}%) but 1h ${(pc1h * 100).toFixed(1)}% and 4h ${(pc4h * 100).toFixed(1)}% negative`,
-        `crowd density 4h = ${pace4h.toFixed(2)}× daily average — thinning`,
+        `reported-participant density 4h = ${pace4h.toFixed(2)}× daily baseline`,
       ], "invalid if pc1h returns ≥ 0 or 4h trader density recovers ≥ 1×");
     } else if (pc1h < 0 || pc4h < 0 || pace4h < 0.8) {
       fadingCrowd = flag("FADING", "WARN", [
@@ -161,11 +161,11 @@ export function evalFundingBoard(
   if (thin || fat) {
     const level: FundingFlag["level"] = mature ? "WARN" : "DANGER";
     if (mature) reasons.push("mature market cap — capped at WARN");
-    return flag("EMPTY_ROOM", level, reasons, "invalid if reported unique traders rise above p50");
+    return flag("EMPTY_ROOM", level, reasons, "invalid if trader breadth rises above p25 AND $/trader falls below p75 — both branches must clear");
   }
   if (uni !== null && row.ut24h <= uni.ut25 * 2) {
     if (mature) reasons.push("mature market cap — capped at WARN");
-    return flag("EMPTY_ROOM", "WARN", [...reasons, "borderline breadth — near p25 band"], "invalid if trader breadth reaches p50");
+    return flag("EMPTY_ROOM", "WARN", [...reasons, "borderline breadth — near p25 band"], "invalid if trader breadth rises above p25 AND $/trader falls below p75");
   }
   return flag("CROWDED", "CLEAN", [...reasons, "breadth adequate"], "invalid if trader breadth falls to p25");
 }

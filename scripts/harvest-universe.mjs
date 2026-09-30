@@ -44,6 +44,14 @@ for (const q of QUERIES) {
   try {
     const res = await fetch(url, { headers: { "X-CMC_PRO_API_KEY": KEY, Accept: "application/json" }, signal: AbortSignal.timeout(10000) });
     const body = await res.json();
+    // A JSON body is not proof of success — check HTTP status AND the CMC
+    // status envelope, or a failed call masquerades as an empty query.
+    if (!res.ok || (body?.status && body.status.error_code !== 0)) {
+      failed++;
+      console.log(`q="${q}" → FAIL http=${res.status} api_err=${body?.status?.error_code ?? "?"} ${body?.status?.error_message ?? ""}`);
+      await sleep(200);
+      continue;
+    }
     credits += body?.status?.credit_count ?? 0;
     const tks = body?.data?.tks ?? [];
     let added = 0;

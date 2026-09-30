@@ -12,7 +12,9 @@
 - `pnpm-workspace.yaml allowBuilds` wajib (oxide/esbuild/sharp) — tanpa itu `pnpm install` error di pnpm 11.24.
 - Windows NTFS: canonical id `Platform:0x…` jadi ADS filename → `drillFilePath` sanitize ke `_`.
 
-**Berikutnya:** deploy attempt (Vercel) atau ship lokal. Kill-criteria eligible<30 belum pernah kejadian; snapshot 2026-09-30 eligible=1083.
+**2026-09-30 (post-audit revision):** Audit eksternal (`ideas/FundingSpot-LiquidityGap-review-2026-09-30.md`) diverifikasi → **peer bands kini dihitung atas `eligible ∧ !excluded-class`** (peer set n=834; Robinhood/stable/wrapped/LST keluar dari denominator — sebelumnya mereka mencemari bands). Board stats baru: nPeer=834, nER=315, gap=35, dual=22, waves=25. Falsifier ER diperbaiki (negasi kedua cabang OR). Harvest script kini cek `res.ok` + `status.error_code`. Errata lengkap: `ideas/LiquidityGap-plan.md` §Errata + `docs/delivery-gate.md` addendum. Tests 30/30 PASS, build hijau.
+
+**Berikutnya:** deploy attempt (Vercel) atau ship lokal. Kill-criteria eligible<30 belum pernah kejadian; snapshot 2026-09-30 eligible=1083, peer=834.
 
 **Contracts yang mengikat:**
 - Engine: `../../ideas/LiquidityGap-plan.md` §3, `../../ideas/FundingSpot-plan.md` §4.

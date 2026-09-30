@@ -2,6 +2,7 @@
 // Bands dihitung pada ELIGIBLE set saja (v>5k ∧ liq>500 ∧ ut≠null) — denominator
 // adalah bagian dari bukti; bands hidup di artifact, bukan hardcode.
 import type { SearchRow, Universe, UniverseBands } from "@/types";
+import { classifyAsset } from "@/engine/exclusions";
 
 export const ELIGIBLE = { V_MIN: 5_000, LIQ_MIN: 500, MIN_SAMPLE: 30 } as const;
 
@@ -99,8 +100,11 @@ export function loadUniverse(raw: {
 }): Universe {
   const rows = raw.rows.map(normSearchRow);
   const eligible = rows.filter(isEligible);
+  // Peer set = field-eligible MINUS excluded asset classes — a tokenized equity
+  // or stablecoin is not a peer for participation/turnover benchmarking.
+  const peerSet = eligible.filter((r) => !classifyAsset(r));
   const byChain = new Map<string, SearchRow[]>();
-  for (const r of eligible) {
+  for (const r of peerSet) {
     const list = byChain.get(r.platform) ?? [];
     list.push(r);
     byChain.set(r.platform, list);
@@ -119,8 +123,9 @@ export function loadUniverse(raw: {
     credits: raw.creditsSpent,
     rows,
     eligibleN: eligible.length,
+    peerN: peerSet.length,
     bands: {
-      global: computeBands(eligible, "global", raw.capturedAt, raw.bodySha256),
+      global: computeBands(peerSet, "global", raw.capturedAt, raw.bodySha256),
       perChain,
     },
   };

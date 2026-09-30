@@ -62,7 +62,8 @@ export interface Universe {
   queries: number;
   credits: number;
   rows: SearchRow[];
-  eligibleN: number;
+  eligibleN: number; // field-eligible rows (floors + reported fields)
+  peerN: number; // eligible minus excluded asset classes — the band denominator
   bands: { global: UniverseBands; perChain: Record<string, UniverseBands> };
 }
 
@@ -225,6 +226,7 @@ export interface BoardStats {
   sha256: string;
   nTotal: number;
   nEligible: number;
+  nPeer: number;
   nFlaggedGap: number;
   nEmptyRoom: number;
   nDual: number;

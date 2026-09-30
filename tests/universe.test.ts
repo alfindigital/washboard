@@ -15,27 +15,28 @@ describe("universe artifact → computed bands (percentile-only)", () => {
     expect(u.rows.filter(isEligible).length).toBe(u.eligibleN);
   });
 
-  it("global eligible bands match pinned seed numbers", () => {
+  it("global peer-set bands match pinned numbers (excluded classes out of denominator)", () => {
     const g = u.bands.global;
-    expect(g.n).toBe(1083);
-    expect(g.ut25).toBe(69);
-    expect(g.ut50).toBe(267);
-    expect(g.ratio75).toBeCloseTo(1.25, 2);
-    expect(g.ratio95).toBeCloseTo(8.896, 2);
-    expect(g.usdPerTrader75).toBeCloseTo(2255, 0);
+    expect(g.n).toBe(834); // peer set — 1083 eligible minus stable/wrapped/lst/venue-equity
+    expect(g.ut25).toBe(65);
+    expect(g.ut50).toBe(225);
+    expect(g.ratio75).toBeCloseTo(1.2452, 2);
+    expect(g.ratio95).toBeCloseTo(11.7132, 1);
+    expect(g.usdPerTrader75).toBeCloseTo(1885, 0);
     expect(g.churn75).toBeNull(); // txs not in search rows
-    expect(g.utVals.length).toBe(1083);
+    expect(g.utVals.length).toBe(834);
   });
 
-  it("per-chain bands exist only for chains with n≥30 eligible", () => {
+  it("per-chain bands exist only for chains with n≥30 peers", () => {
     const sol = u.bands.perChain["Solana"];
     expect(sol).toBeDefined();
-    expect(sol.n).toBe(274);
+    expect(sol.n).toBe(261);
     expect(sol.ratio95).toBeCloseTo(50.55, 1);
     expect(sol.ut25).toBe(112);
     expect(sol.scope).toBe("chain");
+    expect(u.bands.perChain["Robinhood"]).toBeUndefined(); // venue-equity: excluded from peers entirely
     expect(Object.keys(u.bands.perChain)).toEqual(
-      expect.arrayContaining(["Base", "BSC", "Ethereum", "Robinhood", "Solana"]),
+      expect.arrayContaining(["Base", "BSC", "Ethereum", "Solana"]),
     );
     // Near has <30 eligible → global fallback
     expect(bandsFor(u, "Near", null).scope).toBe("global");

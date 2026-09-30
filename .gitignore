@@ -10,3 +10,4 @@ data/drills/*.json
 !data/drills/.gitkeep
 
 .vercel
+tsconfig.tsbuildinfo

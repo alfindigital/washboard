@@ -107,6 +107,7 @@ export function buildBoardView(u: Universe, persist: PersistStore): BoardView {
     sha256: u.sha256,
     nTotal: u.rows.length,
     nEligible: u.eligibleN,
+    nPeer: u.peerN,
     nFlaggedGap: rows.filter(flaggedGap).length,
     nEmptyRoom: rows.filter(flaggedEr).length,
     nDual: rows.filter((r) => r.dual).length,

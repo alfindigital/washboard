@@ -12,7 +12,7 @@ export default function BoardPage() {
   return (
     <div>
       <div className="notice">
-        <strong>Two independent lenses, one snapshot.</strong> The left flag asks{" "}
+        <strong>Two separate lenses over the same tape.</strong> The left flag asks{" "}
         <em>is this turnover real?</em> (volume ÷ pool depth, vs CMC-reported unique traders). The right
         flag asks <em>is this price move backed by a crowd?</em> (+3% move on a thin trader count). They
         never merge into one score — a row can be flagged by either, both, or neither. Snapshot of{" "}

@@ -4,8 +4,9 @@ export function StatStrip({ stats }: { stats: BoardStats }) {
   const items: { k: string; v: string | number; s?: string }[] = [
     { k: "universe rows", v: stats.nTotal.toLocaleString("en-US"), s: `${stats.queries} queries · ${stats.credits} credits` },
     { k: "eligible set", v: stats.nEligible.toLocaleString("en-US"), s: "v>$5k ∧ liq>$500 ∧ ut reported" },
-    { k: "turnover anomaly", v: stats.nFlaggedGap, s: "independent flag" },
-    { k: "empty room", v: stats.nEmptyRoom, s: "independent flag" },
+    { k: "peer set", v: stats.nPeer.toLocaleString("en-US"), s: "bands denominator — excluded classes removed" },
+    { k: "turnover anomaly", v: stats.nFlaggedGap, s: "separate flag — shared inputs" },
+    { k: "empty room", v: stats.nEmptyRoom, s: "separate flag — shared inputs" },
     { k: "dual-flagged", v: stats.nDual, s: "both lenses fire" },
     { k: "waves", v: stats.nWaves, s: "same-shape clusters ≥4" },
     { k: "dormant pools", v: stats.nDormant, s: "v=0, liq>500" },
