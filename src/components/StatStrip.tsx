@@ -1,24 +1,20 @@
 import type { BoardStats } from "@/types";
 
 export function StatStrip({ stats }: { stats: BoardStats }) {
-  const items: { k: string; v: string | number; s?: string }[] = [
-    { k: "universe rows", v: stats.nTotal.toLocaleString("en-US"), s: `${stats.queries} queries · ${stats.credits} credits` },
-    { k: "eligible set", v: stats.nEligible.toLocaleString("en-US"), s: "v>$5k ∧ liq>$500 ∧ ut reported" },
-    { k: "peer set", v: stats.nPeer.toLocaleString("en-US"), s: "bands denominator — excluded classes removed" },
-    { k: "turnover anomaly", v: stats.nFlaggedGap, s: "separate flag — shared inputs" },
-    { k: "empty room", v: stats.nEmptyRoom, s: "separate flag — shared inputs" },
-    { k: "dual-flagged", v: stats.nDual, s: "both lenses fire" },
-    { k: "waves", v: stats.nWaves, s: "same-shape clusters ≥4" },
-    { k: "dormant pools", v: stats.nDormant, s: "v=0, liq>500" },
-    { k: "excluded", v: stats.nExcluded, s: "labeled, not hidden" },
+  const items: { v: string; k: string; hot?: boolean }[] = [
+    { v: stats.nTotal.toLocaleString("en-US"), k: "rows scanned" },
+    { v: stats.nPeer.toLocaleString("en-US"), k: "peer set" },
+    { v: String(stats.nFlaggedGap), k: "turnover anomaly", hot: true },
+    { v: String(stats.nEmptyRoom), k: "empty room", hot: true },
+    { v: String(stats.nDual), k: "dual-flagged", hot: true },
+    { v: String(stats.nWaves), k: "same-shape waves" },
   ];
   return (
-    <div className="statgrid" role="list" aria-label="universe statistics">
+    <div className="hero-stats" aria-label="universe statistics">
       {items.map((i) => (
-        <div className="stat" role="listitem" key={i.k}>
-          <div className="k">{i.k}</div>
+        <div className={`hero-stat${i.hot ? " hot" : ""}`} key={i.k}>
           <div className="v">{i.v}</div>
-          {i.s ? <div className="s">{i.s}</div> : null}
+          <div className="k">{i.k}</div>
         </div>
       ))}
     </div>

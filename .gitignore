@@ -11,3 +11,5 @@ data/drills/*.json
 
 .vercel
 tsconfig.tsbuildinfo
+
+.env*
