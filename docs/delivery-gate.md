@@ -29,3 +29,13 @@ Date: 2026-10-01 · Scope: board UI, drill card, API envelopes, video, copy deck
 - Single dated universe artifact; harvest cadence is operator-run, not scheduled.
 - Serverless deploy loses local drill persistence — mitigated by committed fixtures; live drills on Vercel are per-invocation ephemeral.
 - `ut24h` is provider-reported and farmable — disclosed on every surface that uses it.
+
+## Post-ship external audit addendum (2026-09-30)
+
+External review (`ideas/FundingSpot-LiquidityGap-review-2026-09-30.md`) verified spec↔engine divergences. Verified independently here:
+
+- **Doc-level bug confirmed**: handoff counts "8 ER / 7 dual" only reproduce at `pc24h≥3` (+300%) — wrong unit in spec text. Shipped engine uses `0.03` correctly (`src/types.ts:99`, `src/engine/funding.ts:151`). No product bug.
+- **Canonical shipped counts**: `nEmptyRoom=313` on all reported rows (predicates: `ut≤p25` OR `$/trader≥p75` OR borderline `ut≤2×p25`→WARN). Borderline band is implemented but was under-specified — now documented.
+- **Spec §6 vectors wrong**: INU/Solana ut=142 → WARN not DANGER; ADO is BELOW_FLOOR on board (drill floor-free); Base cohort = two groups ≥4, not one wave-8.
+- **New risk logged**: raw 2,466-row snapshot committed to repo is a CMC redistribution gray zone — consider publishing derived stats + sha only if repo goes public.
+- **Agreed, already our position**: pace/cohort are descriptive not coordinative proof; competitor/moat/subscription caveats unchanged; Data & Viz track is the right fit.
