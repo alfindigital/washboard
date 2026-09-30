@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+/* Washboard design tokens — "forensic blotter / daylight evidence-desk".
+   Light-first: warm paper + ink + one rust accent. Night shift = same semantics on charcoal.
+   Reasons per DESIGN_SPEC §2: paper = evidence desk; rust = the stain that got caught. */
+
+:root {
+  --bg: #f2efe4;
+  --panel: #faf7ec;
+  --ink: #171308;
+  --ink-dim: #5c5340;
+  --line: #d9d2bb;
+  --rust: #a3400a;
+  --rust-soft: #f0e0d2;
+  --amber: #8a6208;
+  --amber-soft: #efe3c8;
+  --ok: #3f6212;
+  --ok-soft: #e3e9d2;
+  --muted: #8a8371;
+  --muted-soft: #e7e2d2;
+  --chip-ink: #171308;
+}
+
+[data-theme="dark"] {
+  --bg: #14110b;
+  --panel: #1c1810;
+  --ink: #ece4cd;
+  --ink-dim: #a2967a;
+  --line: #3a3221;
+  --rust: #d97e3f;
+  --rust-soft: #33200f;
+  --amber: #cfa13a;
+  --amber-soft: #2e2510;
+  --ok: #8fae4e;
+  --ok-soft: #1f2710;
+  --muted: #6b6249;
+  --muted-soft: #26221a;
+  --chip-ink: #ece4cd;
+}
+
+html {
+  color-scheme: light;
+}
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono {
+  font-family: var(--font-data), ui-monospace, "Cascadia Mono", Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+.hairline {
+  border-color: var(--line);
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+}
+
+/* Clothesline motif: section header hairline; chips hang from it. */
+.clothesline {
+  position: relative;
+  border-top: 1px solid var(--line);
+}
+.clothesline-chip {
+  transform: translateY(-50%);
+  margin-top: 0;
+}
+
+/* Focus visibility (R-32) */
+:where(a, button, input, [tabindex]):focus-visible {
+  outline: 2px solid var(--rust);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clothesline-chip {
+    transform: none;
+  }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

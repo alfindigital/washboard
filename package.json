@@ -1,0 +1,28 @@
+{
+  "name": "washboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "evidence:verify": "node scripts/verify-evidence.mjs"
+  },
+  "dependencies": {
+    "next": "15.5.4",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.29",
+    "@types/react": "19.1.10",
+    "@types/react-dom": "19.1.6",
+    "tailwindcss": "4.1.13",
+    "@tailwindcss/postcss": "4.1.13",
+    "typescript": "5.9.2",
+    "vitest": "3.2.4"
+  }
+}
