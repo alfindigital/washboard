@@ -37,7 +37,8 @@ export function cohortKey(row: BoardRow): CohortKey {
 }
 
 const flagged = (r: BoardRow) =>
-  r.gap.level === "WARN" || r.gap.level === "DANGER" || r.funding.level === "WARN" || r.funding.level === "DANGER";
+  r.gap.state !== "EXCLUDED" && r.gap.state !== "NO_DATA" &&
+  (r.gap.level === "WARN" || r.gap.level === "DANGER" || r.funding.level === "WARN" || r.funding.level === "DANGER");
 
 /** Detect waves among flagged board rows: same platform × age × ut band, ≥4. */
 export function detectWaves(rows: BoardRow[]): Wave[] {

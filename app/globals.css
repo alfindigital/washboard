@@ -1,93 +1,171 @@
 @import "tailwindcss";
 
-/* Washboard design tokens — "forensic blotter / daylight evidence-desk".
-   Light-first: warm paper + ink + one rust accent. Night shift = same semantics on charcoal.
-   Reasons per DESIGN_SPEC §2: paper = evidence desk; rust = the stain that got caught. */
-
+/*
+ * Washboard — forensic blotter.
+ * Direction: warm paper, ink text, rust accent, clothesline chip motif.
+ * ENERGY 1 (calm), RHYTHM 2 (structured), MOTION 1 (subtle).
+ * Status is NEVER color-only — every flag carries a text label.
+ */
 :root {
-  --bg: #f2efe4;
-  --panel: #faf7ec;
-  --ink: #171308;
-  --ink-dim: #5c5340;
-  --line: #d9d2bb;
-  --rust: #a3400a;
-  --rust-soft: #f0e0d2;
-  --amber: #8a6208;
-  --amber-soft: #efe3c8;
-  --ok: #3f6212;
-  --ok-soft: #e3e9d2;
-  --muted: #8a8371;
-  --muted-soft: #e7e2d2;
-  --chip-ink: #171308;
+  --paper: #f6f1e7;
+  --paper-2: #efe7d8;
+  --card: #fdfaf2;
+  --ink: #262019;
+  --ink-2: #554a3c;
+  --ink-3: #8a7d6a;
+  --rust: #b23a1d;
+  --rust-deep: #8c2c15;
+  --amber: #b07d10;
+  --ok: #3f6f51;
+  --line: #d8cdb8;
+  --line-dark: #b8ab90;
+  --shadow: 0 1px 0 rgba(38, 32, 25, 0.08);
+  --mono: ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  --serif: Georgia, "Times New Roman", serif;
 }
 
-[data-theme="dark"] {
-  --bg: #14110b;
-  --panel: #1c1810;
-  --ink: #ece4cd;
-  --ink-dim: #a2967a;
-  --line: #3a3221;
-  --rust: #d97e3f;
-  --rust-soft: #33200f;
-  --amber: #cfa13a;
-  --amber-soft: #2e2510;
-  --ok: #8fae4e;
-  --ok-soft: #1f2710;
-  --muted: #6b6249;
-  --muted-soft: #26221a;
-  --chip-ink: #ece4cd;
-}
-
-html {
-  color-scheme: light;
-}
-[data-theme="dark"] {
-  color-scheme: dark;
-}
-
+html { background: var(--paper); }
 body {
-  background: var(--bg);
+  background:
+    radial-gradient(1200px 400px at 50% -10%, rgba(178, 58, 29, 0.05), transparent 70%),
+    var(--paper);
   color: var(--ink);
-  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font-family: var(--serif);
+  min-height: 100vh;
 }
 
-.mono {
-  font-family: var(--font-data), ui-monospace, "Cascadia Mono", Consolas, monospace;
-  font-variant-numeric: tabular-nums;
-}
+.mono { font-family: var(--mono); }
+.serif { font-family: var(--serif); }
 
-.hairline {
-  border-color: var(--line);
-}
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-.panel {
-  background: var(--panel);
-  border: 1px solid var(--line);
+/* ---------- masthead ---------- */
+.masthead {
+  border-bottom: 2px solid var(--ink);
+  padding: 18px 0 10px;
+  display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
 }
+.masthead h1 { font-size: 30px; letter-spacing: -0.5px; font-weight: 700; }
+.masthead .kicker {
+  font-family: var(--mono); font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1.5px; color: var(--rust);
+}
+.rule-double { border-top: 1px solid var(--ink); border-bottom: 3px double var(--ink); height: 4px; margin: 6px 0 0; }
 
-/* Clothesline motif: section header hairline; chips hang from it. */
-.clothesline {
-  position: relative;
-  border-top: 1px solid var(--line);
+/* ---------- clothesline chips ---------- */
+.line { position: relative; padding-top: 18px; }
+.line::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0;
+  border-top: 1.5px dashed var(--line-dark);
 }
-.clothesline-chip {
-  transform: translateY(-50%);
-  margin-top: 0;
+.chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.4px;
+  border: 1px solid var(--line-dark); background: var(--card);
+  padding: 4px 9px; margin: 0 8px 6px 0; position: relative;
+  box-shadow: var(--shadow); text-transform: uppercase;
 }
+.chip::before {
+  content: ""; position: absolute; top: -9px; left: 50%; width: 1px; height: 9px;
+  background: var(--line-dark);
+}
+button.chip { cursor: pointer; }
+button.chip:hover { border-color: var(--ink); }
+button.chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.chip .dot { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
 
-/* Focus visibility (R-32) */
-:where(a, button, input, [tabindex]):focus-visible {
-  outline: 2px solid var(--rust);
-  outline-offset: 2px;
+/* ---------- flag levels (text + tone, never color-only) ---------- */
+.flag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.3px;
+  padding: 3px 7px; border: 1px solid transparent; white-space: nowrap;
 }
+.flag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; }
+.flag-danger { color: var(--rust-deep); border-color: var(--rust); background: rgba(178, 58, 29, 0.10); }
+.flag-danger::before { background: var(--rust); }
+.flag-warn { color: var(--amber); border-color: var(--amber); background: rgba(176, 125, 16, 0.09); }
+.flag-warn::before { background: var(--amber); }
+.flag-info { color: var(--ink-2); border-color: var(--line-dark); background: var(--paper-2); }
+.flag-info::before { background: var(--ink-3); }
+.flag-clean { color: var(--ok); border-color: var(--line); }
+.flag-clean::before { border: 1.5px solid var(--ok); }
+.flag-missing { color: var(--ink-3); border-color: var(--line); border-style: dashed; }
+.flag-missing::before { background: var(--line-dark); border-radius: 0; }
 
+/* ---------- blotter table ---------- */
+.blotter { width: 100%; border-collapse: collapse; font-size: 13px; }
+.blotter th {
+  font-family: var(--mono); font-size: 10.5px; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--ink-3); font-weight: 500;
+  text-align: left; padding: 10px 10px 8px; border-bottom: 2px solid var(--ink);
+  white-space: nowrap; user-select: none;
+}
+.blotter th button { font: inherit; color: inherit; text-transform: inherit; letter-spacing: inherit; cursor: pointer; padding: 0; background: none; border: none; }
+.blotter th button:hover { color: var(--rust); }
+.blotter td { padding: 8px 10px; border-bottom: 1px dotted var(--line-dark); vertical-align: middle; }
+.blotter tbody tr:hover { background: rgba(178, 58, 29, 0.04); }
+.blotter td.num { font-family: var(--mono); text-align: right; font-size: 12px; }
+.blotter td .sub { display: block; font-size: 10px; color: var(--ink-3); }
+.symcell { font-weight: 700; }
+.symcell .name { font-weight: 400; color: var(--ink-3); font-size: 11px; display: block; max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ---------- panels & cards ---------- */
+.panel { border: 1px solid var(--line-dark); background: var(--card); padding: 16px; box-shadow: var(--shadow); }
+.panel h2, .panel h3 { font-size: 15px; margin: 0 0 8px; }
+.notice {
+  border: 1px solid var(--line-dark); border-left: 3px solid var(--rust);
+  background: var(--card); padding: 10px 12px; font-size: 12.5px; color: var(--ink-2);
+}
+.statgrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
+.stat { border: 1px solid var(--line); padding: 10px 12px; background: var(--card); }
+.stat .k { font-family: var(--mono); font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-3); }
+.stat .v { font-family: var(--mono); font-size: 20px; margin-top: 2px; }
+.stat .s { font-size: 11px; color: var(--ink-3); margin-top: 2px; }
+
+/* ---------- forms ---------- */
+.field { display: flex; gap: 8px; flex-wrap: wrap; }
+.field input[type="text"] {
+  font-family: var(--mono); font-size: 13px; padding: 8px 10px; flex: 1; min-width: 220px;
+  border: 1px solid var(--line-dark); background: #fffdf7; color: var(--ink);
+}
+.field input:focus { outline: 2px solid var(--rust); outline-offset: 1px; border-color: var(--rust); }
+.btn {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;
+  padding: 8px 14px; border: 1.5px solid var(--ink); background: var(--ink); color: var(--paper);
+  cursor: pointer;
+}
+.btn:hover { background: var(--rust-deep); border-color: var(--rust-deep); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.ghost:hover { border-color: var(--rust); color: var(--rust); background: transparent; }
+
+/* ---------- misc ---------- */
+.mono-sm { font-family: var(--mono); font-size: 11px; color: var(--ink-2); }
+.dim { color: var(--ink-3); }
+.footnote { font-size: 11.5px; color: var(--ink-3); border-top: 1px solid var(--line); padding-top: 10px; margin-top: 24px; }
+.link { color: var(--rust); text-decoration: underline; text-decoration-style: dotted; text-underline-offset: 2px; }
+.link:hover { color: var(--rust-deep); text-decoration-style: solid; }
+.mono-hash { font-family: var(--mono); font-size: 10px; color: var(--ink-3); word-break: break-all; }
+.ladder { width: 100%; border-collapse: collapse; font-family: var(--mono); font-size: 11.5px; }
+.ladder th, .ladder td { padding: 5px 8px; border-bottom: 1px dotted var(--line-dark); text-align: right; }
+.ladder th { text-align: left; color: var(--ink-3); text-transform: uppercase; font-size: 10px; letter-spacing: 1px; }
+.ladder td:first-child, .ladder th:first-child { text-align: left; }
+.neg { color: var(--rust-deep); }
+.pos { color: var(--ok); }
+
+/* ---------- a11y & motion ---------- */
+:focus-visible { outline: 2px solid var(--rust); outline-offset: 2px; }
+.skip {
+  position: absolute; left: -999px; top: 6px; background: var(--ink); color: var(--paper);
+  font-family: var(--mono); font-size: 12px; padding: 6px 10px; z-index: 50;
+}
+.skip:focus { left: 8px; }
 @media (prefers-reduced-motion: reduce) {
-  .clothesline-chip {
-    transform: none;
-  }
-  * {
-    transition: none !important;
-    animation: none !important;
-  }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media (max-width: 720px) {
+  .masthead h1 { font-size: 24px; }
+  .blotter { font-size: 12px; }
+  .blotter td, .blotter th { padding: 6px 6px; }
+  .hide-sm { display: none; }
 }

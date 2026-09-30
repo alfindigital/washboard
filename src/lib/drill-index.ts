@@ -6,11 +6,9 @@ import type { DrillRecord } from "@/types";
 const DRILLS_DIR = path.join(process.cwd(), "data", "drills");
 const TTL_MS = Number(process.env.DRILL_TTL_MINUTES ?? 30) * 60_000;
 
-let index: Map<string, { id: string; generatedAt: string; record: DrillRecord }> | null = null;
-
-export function loadDrillIndex(): typeof index {
-  if (index) return index;
-  index = new Map();
+/** Rescan per call — bundles appear between requests; the dir stays small. */
+export function loadDrillIndex(): Map<string, { id: string; generatedAt: string; record: DrillRecord }> {
+  const index = new Map<string, { id: string; generatedAt: string; record: DrillRecord }>();
   if (!existsSync(DRILLS_DIR)) return index;
   for (const f of readdirSync(DRILLS_DIR)) {
     if (!f.endsWith(".json")) continue;
@@ -27,12 +25,13 @@ export function loadDrillIndex(): typeof index {
 
 /** Fresh record for tokenId within TTL, or null. */
 export function findCachedDrill(tokenId: string): { id: string; generatedAt: string; record: DrillRecord } | null {
-  const hit = loadDrillIndex()!.get(tokenId);
+  const hit = loadDrillIndex().get(tokenId);
   if (!hit) return null;
   if (Date.now() - Date.parse(hit.generatedAt) > TTL_MS) return null;
   return hit;
 }
 
+/** Windows-safe filename — NTFS would turn "Base:0x…" into an ADS stream. */
 export function drillFilePath(id: string): string {
-  return path.join(DRILLS_DIR, `${id}.json`);
+  return path.join(DRILLS_DIR, `${id.replace(/[^a-zA-Z0-9._-]/g, "_")}.json`);
 }

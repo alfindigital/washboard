@@ -8,13 +8,19 @@ import { dirname, join } from "node:path";
 import { createHash } from "node:crypto";
 
 const here = dirname(fileURLToPath(import.meta.url));
-const env = Object.fromEntries(
-  readFileSync(join(here, "../verdex/.env.local"), "utf8")
-    .split("\n").map(l => l.trim()).filter(l => l && !l.startsWith("#"))
-    .map(l => { const i = l.indexOf("="); return [l.slice(0, i), l.slice(i + 1)]; })
-);
-const KEY = env.CMC_API_KEY;
-if (!KEY) { console.error("CMC_API_KEY missing"); process.exit(1); }
+// Key from env, or .env.local in THIS repo (no sibling-path reads).
+const loadLocal = () => {
+  try {
+    return Object.fromEntries(
+      readFileSync(join(here, "../.env.local"), "utf8")
+        .split("\n").map(l => l.trim()).filter(l => l && !l.startsWith("#"))
+        .map(l => { const i = l.indexOf("="); return [l.slice(0, i), l.slice(i + 1)]; })
+    );
+  } catch { return {}; }
+};
+const envLocal = loadLocal();
+const KEY = process.env.CMC_API_KEY ?? envLocal.CMC_API_KEY;
+if (!KEY) { console.error("CMC_API_KEY missing (env or .env.local)"); process.exit(1); }
 const BASE = "https://pro-api.coinmarketcap.com";
 
 // letters + digits for breadth; high-collision tickers for the clone/scam habitat
@@ -66,8 +72,13 @@ const snapshot = {
 };
 const raw = JSON.stringify(snapshot);
 snapshot.bodySha256 = createHash("sha256").update(raw).digest("hex");
-const out = join(here, `liquiditygap-universe-${new Date().toISOString().slice(0, 10)}.json`);
+const date = new Date().toISOString().slice(0, 10);
+const outDir = join(here, "../data/universe");
+const out = join(outDir, `universe-${date}.json`);
 writeFileSync(out, JSON.stringify(snapshot, null, 2) + "\n", "utf8");
+writeFileSync(join(outDir, "latest.json"), JSON.stringify({ pointsTo: `universe-${date}.json` }) + "\n", "utf8");
 console.log(`\nDONE in ${((Date.now() - t0) / 1000).toFixed(0)}s — ${rows.length} unique tokens, ${credits} credits, ${failed} failed`);
 console.log(`snapshot → ${out}`);
+console.log(`latest.json → universe-${date}.json`);
 console.log(`sha256: ${snapshot.bodySha256}`);
+console.log(`next: node scripts/update-persistence.mjs data/universe/universe-${date}.json`);
