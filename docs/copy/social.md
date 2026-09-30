@@ -21,10 +21,17 @@ Alternates:
 
 ## 60-second pitch (video VO — shipped)
 
+Two shipped cuts: `video/washboard-demo.mp4` (edge-tts single voice) and
+`video/washboard-demo-el.mp4` (**ElevenLabs v4**, two voices — Brian reads the
+problem/lenses, Sarah reads evidence/method/outro; per-line assets
+`public/vo-el-s*.mp3`, timings `public/vo-el-timing.json`, generator
+`scripts/gen-vo-elevenlabs.py`). The EL cut also carries the post-audit
+wording ("two separate questions", "AI second opinion").
+
 > Most DEX boards rank tokens by volume and price. But volume alone doesn't
 > tell you who's actually in the room.
 >
-> Washboard replays one snapshot of 2,466 spot tokens and asks two independent
+> Washboard replays one snapshot of 2,466 spot tokens and asks two separate
 > questions.
 >
 > First: is this turnover real? High volume cycling through a thin pool,

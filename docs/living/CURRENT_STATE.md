@@ -14,6 +14,8 @@
 
 **2026-09-30 (post-audit revision):** Audit eksternal (`ideas/FundingSpot-LiquidityGap-review-2026-09-30.md`) diverifikasi → **peer bands kini dihitung atas `eligible ∧ !excluded-class`** (peer set n=834; Robinhood/stable/wrapped/LST keluar dari denominator — sebelumnya mereka mencemari bands). Board stats baru: nPeer=834, nER=315, gap=35, dual=22, waves=25. Falsifier ER diperbaiki (negasi kedua cabang OR). Harvest script kini cek `res.ok` + `status.error_code`. Errata lengkap: `ideas/LiquidityGap-plan.md` §Errata + `docs/delivery-gate.md` addendum. Tests 30/30 PASS, build hijau.
 
+**2026-10-01 (VO ElevenLabs):** Varian dua-suara `video/washboard-demo-el.mp4` (66s) shipped — `eleven_v4`, Brian (cowok) bawa problem/lenses, Sarah (cewek) bawa evidence/method/outro. Per-line mp3 di `public/vo-el-s*.mp3`, komposisi `WashboardDemoEL` (timing dihitung dari durasi ffprobe riil). Wording sekalian post-audit ("separate questions", "AI second opinion"). 6/10 key kena `detected_unusual_activity`; 4 key cadangan bekerja — keys TIDAK disimpan di repo (env only).
+
 **Berikutnya:** deploy attempt (Vercel) atau ship lokal. Kill-criteria eligible<30 belum pernah kejadian; snapshot 2026-09-30 eligible=1083, peer=834.
 
 **Contracts yang mengikat:**

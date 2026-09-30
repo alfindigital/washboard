@@ -21,7 +21,7 @@ Date: 2026-10-01 · Scope: board UI, drill card, API envelopes, video, copy deck
 
 ## Compromises (documented, not hidden)
 
-1. **ElevenLabs VO substituted with edge-tts** — API exists and was checked (`text_to_speech` reachable) but account had 9 credits vs ~830 required. Swap `public/vo.mp3` when quota returns; script is in `docs/copy/social.md`.
+1. **ElevenLabs VO substituted with edge-tts** — API exists and was checked (`text_to_speech` reachable) but the original account had 9 credits vs ~830 required. **RESOLVED 2026-10-01:** `video/washboard-demo-el.mp4` renders the same storyboard on `eleven_v4` with two voices (Brian + Sarah); per-line assets in `public/vo-el-s*.mp3`, generator `scripts/gen-vo-elevenlabs.py` (keys via env only — six of the ten provided keys were refused by the provider's unusual-activity check; the remaining four generated all 15 lines). Edge-tts cut remains as `video/washboard-demo.mp4`.
 2. **Jev unavailable on 3/5 showcase fixtures** — typesafe endpoint enforces a burst limit; first call succeeds, rapid subsequent calls return unavailable. This is a designed state and is shown as such on the cards.
 
 ## Residual risks

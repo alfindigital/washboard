@@ -46,4 +46,4 @@ npx remotion render src/remotion/index.ts WashboardDemo video/washboard-demo.mp4
 
 ## Video pipeline
 
-`src/remotion/WashboardDemo.tsx` — komposisi 1920×1080@30fps, angka riil dari snapshot/fixtures. VO saat ini via edge-tts (ElevenLabs quota habis saat build — interface `text_to_speech` tersedia, ganti track di `public/vo.mp3` kalau quota kembali). Copy deck: `docs/copy/social.md`.
+`src/remotion/WashboardDemo.tsx` — komposisi 1920×1080@30fps, angka riil dari snapshot/fixtures. Dua cut di `video/`: `washboard-demo.mp4` (VO edge-tts) dan `washboard-demo-el.mp4` (VO **ElevenLabs v4** dua suara — Brian & Sarah; komposisi `WashboardDemoEL`, aset `public/vo-el-s*.mp3`). Copy deck: `docs/copy/social.md`.
