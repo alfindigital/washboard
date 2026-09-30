@@ -1,0 +1,60 @@
+1
+00:00:00,100 --> 00:00:04,115
+Most DEX boards rank tokens by volume and price.
+
+2
+00:00:04,065 --> 00:00:07,839
+But volume alone doesn't tell you who's actually in the room.
+
+3
+00:00:07,839 --> 00:00:15,364
+Washboard replays one snapshot of 2,466 spot tokens and asks two independent questions.
+
+4
+00:00:15,364 --> 00:00:18,203
+First: is this turnover real?
+
+5
+00:00:18,203 --> 00:00:26,080
+High volume cycling through a thin pool, reported by only a handful of unique traders, gets flagged as a turnover anomaly.
+
+6
+00:00:26,080 --> 00:00:29,478
+Second: is this move backed by anyone?
+
+7
+00:00:29,478 --> 00:00:35,703
+A price pump with a near-empty room gets flagged separately — two lenses, never one score.
+
+8
+00:00:35,703 --> 00:00:40,983
+Every flag ships with its receipt: the query, the timestamp, the hash.
+
+9
+00:00:40,983 --> 00:00:43,774
+Reproducible, not vibes.
+
+10
+00:00:43,774 --> 00:00:51,541
+And because numbers deserve a second read, each drill card adds an independent AI opinion — labeled, and never the verdict.
+
+11
+00:00:51,541 --> 00:00:53,677
+No accusations.
+
+12
+00:00:53,677 --> 00:00:55,570
+No predictions.
+
+13
+00:00:55,570 --> 00:00:58,944
+Just the evidence, and what would change the view.
+
+14
+00:00:58,944 --> 00:01:00,497
+Washboard.
+
+15
+00:01:00,497 --> 00:01:02,864
+Evidence before conviction.
+

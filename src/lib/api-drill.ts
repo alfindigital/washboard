@@ -54,10 +54,13 @@ const apiKeys = (): string[] => {
 const haveKey = () => apiKeys().length > 0;
 
 function client() {
+  // Serverless (Vercel) filesystems are read-only outside /tmp — receipts are
+  // still returned in the response body; the on-disk log/cache is best-effort.
+  const writable = process.env.VERCEL ? "/tmp" : process.cwd();
   return createCmcClient({
     apiKeys: apiKeys(),
-    logPath: path.join(process.cwd(), "data", "logs", "cmc-requests.jsonl"),
-    cacheDir: path.join(process.cwd(), "data", "cache"),
+    logPath: path.join(writable, "data", "logs", "cmc-requests.jsonl"),
+    cacheDir: path.join(writable, "data", "cache"),
   });
 }
 
@@ -298,7 +301,13 @@ export async function runDrill(input: { q?: string; platform?: string; address?:
     },
   };
 
-  mkdirSync(path.join(process.cwd(), "data", "drills"), { recursive: true });
-  writeFileSync(drillFilePath(id), JSON.stringify(record, null, 2));
+  // Best-effort persistence: on serverless the fs is read-only — the record is
+  // still returned to the caller even if the bundle cannot be written.
+  try {
+    mkdirSync(path.join(process.cwd(), "data", "drills"), { recursive: true });
+    writeFileSync(drillFilePath(id), JSON.stringify(record, null, 2));
+  } catch {
+    // read-only fs (serverless) — skip persistence, response already carries the record
+  }
   return { id, record, mode: "live" };
 }

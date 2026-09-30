@@ -1,23 +1,39 @@
 # HANDOVER — Washboard
 
-> Untuk sesi build berikutnya. Baca urutan ini: `CONTEXT.md` → `PLAN.md` → `TASKS.md` → file ini.
+> Untuk sesi berikutnya. Baca urutan ini: `CONTEXT.md` → file ini → `docs/living/CURRENT_STATE.md`.
 
-## TL;DR untuk builder
-1. Kamu membangun **Washboard**: satu Next.js 15 app, dua lensa independen (board LiquidityGap + drill FundingSpot). Bukan dua produk, bukan satu skor.
-2. Semua keputusan produk sudah RESOLVED di `CONTEXT.md`. Yang boleh kamu putuskan hanya detail implementasi di dalam kontrak.
-3. Engine contracts itu **verbatim**: `../../ideas/LiquidityGap-plan.md` §3 dan `../../ideas/FundingSpot-plan.md` §4. Jangan re-derive formula; bila spec ini dan plan-doc konflik → plan-doc menang untuk formula, spec menang untuk scope/stack.
-4. Task order = `TASKS.md` T-001→T-039, 1 task = 1 commit, update `TODO.md`+`CURRENT_STATE.md` tiap commit.
-5. antislop mode DURING: ikuti `specs/DESIGN_SPEC.md` persis; Delivery Gate report wajib di T-037.
-6. Jangan pernah commit `.env*`, key, atau raw CMC headers.
+## State saat handover
+Build + media selesai dan terverifikasi. Aplikasi jalan lokal (`pnpm dev`/`pnpm start -p 3111`), deploy Vercel belum dicoba. Yang tersisa: deploy opsional + polish kalau diminta.
 
-## Pemetaan dokumen sumber
-| Butuh | Baca |
+## Peta repo (yang penting)
+| Path | Isi |
 | --- | --- |
-| Kenapa produk ini ada | `../../ideas/LiquidityGap-validation.md`, `../../ideas/FundingSpot-validation.md` |
-| Formula board | `../../ideas/LiquidityGap-plan.md` §3 |
-| Formula drill + Jev | `../../ideas/FundingSpot-plan.md` §4–§7 |
-| Angka bands seed | `../../ideas/liquiditygap-universe-2026-09-30.json` |
-| Test vectors drill | `../../ideas/fundingspot-universe-sample.json` + FundingSpot-plan §8 |
+| `src/engine/` | universe, gap, funding, cohort, persistence — kontrak verbatim dari `../../ideas/*-plan.md` |
+| `src/lib/api-drill.ts` | orkestrasi drill: resolve → dedup → live-gated fetch → eval → Jev → record hashable |
+| `src/lib/drill-index.ts` | index rescan-per-call; `data/drills/` (lokal) + `data/fixtures/drills/` (committed showcase) |
+| `src/components/` | BoardTable, DrillCard, Waves (compact, capped), FlagChip, StatStrip, DrillSearch |
+| `app/api/` | `/api/board`, `/api/drill`, `/api/drill/[id]` |
+| `data/universe/` | snapshot 2466 rows (2026-09-30) + `latest.json` pointer |
+| `data/fixtures/drills/` | 5 showcase records ter-commit → permalinks `/drill/<platform>:<addr>` |
+| `src/remotion/` | komposisi video (`WashboardDemo`), `public/vo.mp3`, output `video/` |
+| `docs/copy/social.md` | tagline, pitch 60s, caption sosial, daftar kata terlarang |
+
+## Verify gate (run before claim)
+```bash
+pnpm test && pnpm typecheck && pnpm build && pnpm evidence:verify
+```
+Terakhir: semua hijau (2026-10-01). Smoke: `curl localhost:3111/api/board` → mode replay; `curl -X POST /api/drill {platform,address}` → live|dedup.
+
+## Gotchas yang sudah terjadi (jangan ulangi)
+- `sts[]` provider bisa semua-nol → wajib filter `>0` sebelum evalFunding (bukan `!= null`).
+- Filename NTFS: `:` di id → sanitize via `drillFilePath`.
+- Drill index harus rescan per call — jangan cache di module scope.
+- Jev burst-limit: space calls ≥60s kalau mau semua dapat opinion; `unavailable` itu state legal.
+- `pnpm approve-builds <pkgs>` non-interaktif untuk allowBuilds; field `pnpm` di package.json sudah deprecated di pnpm 11.
+
+## Deploy notes
+- Env Vercel wajib: `CMC_API_KEY` (+ `TYPESAFE_API_KEYS`, `WB_*` opsional). Tanpa key board tetap jalan (replay) tapi POST drill → `DRILL_UNAVAILABLE` di luar fixtures — acceptable degradation by design.
+- Filesystem drill persistence tidak survive di serverless — fixtures committed tetap bisa dibaca via index fallback; itu disengaja.
 
 ## Selesai = apa
-`pnpm test && typecheck && build && evidence:verify` hijau · 12 golden vectors pass · vocabulary grep bersih · antislop gate PASS · board+drill render dari replay tanpa key · deploy Vercel verified.
+`pnpm test && typecheck && build && evidence:verify` hijau · vocabulary grep bersih (`scam|insider|wash confirmed` hanya sebagai teks terlarang yang di-strikethrough) · board+drill render dari replay tanpa key.

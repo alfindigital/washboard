@@ -17,7 +17,7 @@ const fake: DrillRecord = {
   ladder: [],
   jev: null,
   receipts: [],
-  data: { universeAt: "2026-09-30", peerUniverse: "snapshot-universe", eligibleN: 1083, mcPriceAnomaly: false },
+  data: { universeAt: "2026-09-30", peerUniverse: "snapshot-universe", eligibleN: 1083, mcPriceAnomaly: false, stsReported: 5, stsUsable: 5 },
   meta: { why: "test", falsifiers: { empty_room: "", fading: "" } },
 };
 

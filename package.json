@@ -11,17 +11,21 @@
     "evidence:verify": "node scripts/verify-evidence.mjs"
   },
   "dependencies": {
-    "next": "15.5.4",
+    "@remotion/bundler": "4.0.355",
+    "@remotion/cli": "4.0.355",
+    "@remotion/renderer": "4.0.355",
+    "next": "15.5.27",
     "react": "19.1.1",
     "react-dom": "19.1.1",
+    "remotion": "4.0.355",
     "zod": "3.25.76"
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "4.1.13",
     "@types/node": "22.15.29",
     "@types/react": "19.1.10",
     "@types/react-dom": "19.1.6",
     "tailwindcss": "4.1.13",
-    "@tailwindcss/postcss": "4.1.13",
     "typescript": "5.9.2",
     "vitest": "3.2.4"
   }
