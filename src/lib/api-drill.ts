@@ -97,12 +97,18 @@ async function resolveRef(input: { q?: string; platform?: string; address?: stri
     if (!haveKey()) {
       throw new DrillError("NOT_FOUND", `${input.address.slice(0, 12)}… not in snapshot universe and no live key`);
     }
-    const { token, receipt } = await resolveToken(client(), input.address, platform).catch((e) => {
+    let token: TokenRef;
+    let receipt: Receipt;
+    try {
+      const res = await resolveToken(client(), input.address, platform);
+      token = res.token;
+      receipt = res.receipt;
+    } catch (e) {
       if (e instanceof AmbiguousSymbolError) {
         throw new DrillError("AMBIGUOUS", `address lookup is ambiguous — pick a candidate`, { candidates: e.candidates });
       }
-      throw e;
-    });
+      throw new DrillError("NOT_FOUND", `${platform}:${input.address.slice(0, 12)}… not found via live search`);
+    }
     return { ref: token, row: null, searchReceipt: receipt };
   }
 
@@ -191,7 +197,17 @@ export async function runDrill(input: { q?: string; platform?: string; address?:
   spendCredits(2);
 
   const generatedAt = new Date().toISOString();
-  const windows: WindowStat[] = profile.profile.windowStats;
+  // Provider sometimes returns zeroed sts[] windows (pc=0, ut=0, v=null) for
+  // thinly-indexed tokens. Those are "not populated", not real measurements —
+  // drop them so evalFunding reports INSUFFICIENT instead of a fake NO_MOVE.
+  const rawWindows = profile.profile.windowStats;
+  const windows: WindowStat[] = rawWindows.filter(
+    (w) =>
+      (w.volUsd ?? 0) > 0 ||
+      (w.txCount ?? 0) > 0 ||
+      (w.uniqueTraders ?? 0) > 0 ||
+      (w.priceChange != null && w.priceChange !== 0),
+  );
   const mcap = row?.mc ?? profile.profile.mcapUsd;
   const liq = row?.liq ?? profile.profile.liqUsd;
   const ageDays = poolAgeDays(poolsRes.pools.map((p) => p.pubAt), Date.now());
@@ -273,6 +289,8 @@ export async function runDrill(input: { q?: string; platform?: string; address?:
       peerUniverse: "snapshot-universe",
       eligibleN: u.eligibleN,
       mcPriceAnomaly,
+      stsReported: rawWindows.length,
+      stsUsable: windows.length,
     },
     meta: {
       why: whyLine(ref, rules.metrics, pc24h),

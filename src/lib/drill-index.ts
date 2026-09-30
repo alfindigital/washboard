@@ -4,20 +4,23 @@ import path from "path";
 import type { DrillRecord } from "@/types";
 
 const DRILLS_DIR = path.join(process.cwd(), "data", "drills");
+const FIXTURES_DIR = path.join(process.cwd(), "data", "fixtures", "drills");
 const TTL_MS = Number(process.env.DRILL_TTL_MINUTES ?? 30) * 60_000;
 
-/** Rescan per call — bundles appear between requests; the dir stays small. */
+/** Rescan per call — bundles appear between requests; dirs stay small. */
 export function loadDrillIndex(): Map<string, { id: string; generatedAt: string; record: DrillRecord }> {
   const index = new Map<string, { id: string; generatedAt: string; record: DrillRecord }>();
-  if (!existsSync(DRILLS_DIR)) return index;
-  for (const f of readdirSync(DRILLS_DIR)) {
-    if (!f.endsWith(".json")) continue;
-    try {
-      const rec = JSON.parse(readFileSync(path.join(DRILLS_DIR, f), "utf8")) as DrillRecord;
-      if (!rec?.id || !rec.generatedAt) continue;
-      index.set(rec.id, { id: rec.id, generatedAt: rec.generatedAt, record: rec });
-    } catch {
-      // unreadable file — skip, never crash the route
+  for (const dir of [DRILLS_DIR, FIXTURES_DIR]) {
+    if (!existsSync(dir)) continue;
+    for (const f of readdirSync(dir)) {
+      if (!f.endsWith(".json")) continue;
+      try {
+        const rec = JSON.parse(readFileSync(path.join(dir, f), "utf8")) as DrillRecord;
+        if (!rec?.id || !rec.generatedAt) continue;
+        index.set(rec.id, { id: rec.id, generatedAt: rec.generatedAt, record: rec });
+      } catch {
+        // unreadable file — skip, never crash the route
+      }
     }
   }
   return index;

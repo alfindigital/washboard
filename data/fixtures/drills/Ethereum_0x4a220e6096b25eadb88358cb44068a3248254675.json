@@ -1,0 +1,139 @@
+{
+  "id": "Ethereum:0x4a220e6096b25eadb88358cb44068a3248254675",
+  "generatedAt": "2026-09-30T16:58:25.327Z",
+  "rulesVersion": "washboard-rules-1.0.0",
+  "mode": "live",
+  "subject": {
+    "platform": "Ethereum",
+    "address": "0x4a220e6096b25eadb88358cb44068a3248254675",
+    "symbol": "QNT",
+    "name": "Quant",
+    "priceUsd": 304.0076022544222,
+    "pc24h": 0.2107,
+    "poolAgeDays": 2288.1749343402776,
+    "mcap": 13822313651.701813,
+    "liqUsd": 2637834.004676262
+  },
+  "flags": {
+    "empty_room": {
+      "state": "CROWDED",
+      "level": "CLEAN",
+      "reasons": [
+        "24h move +21.6% on 2371 reported unique traders",
+        "participation breadth adequate for the move"
+      ],
+      "falsifier": "invalid if trader breadth falls to p25"
+    },
+    "fading": {
+      "state": "FADING",
+      "level": "WARN",
+      "reasons": [
+        "weaker leg: 1h -0.2%, 4h -3.7%, density 1.67×"
+      ],
+      "falsifier": "invalid if short windows return positive with density ≥ 1×"
+    }
+  },
+  "metrics": {
+    "ut24h": 2371,
+    "utPercentile": 0.9836956521739131,
+    "churn24h": 4.8258118937157315,
+    "usdPerTrader": 4243.403743976303,
+    "pace": {
+      "1h": 1.9536060733867566,
+      "4h": 1.665120202446225
+    },
+    "momentum": {
+      "5m": -0.0039,
+      "1h": -0.0017,
+      "4h": -0.037,
+      "24h": 0.2158
+    }
+  },
+  "ladder": [
+    {
+      "key": "5m",
+      "windowSec": 300,
+      "pct": -0.0039,
+      "txs": 23,
+      "buyTxs": 21,
+      "sellTxs": 2,
+      "uniqueTraders": 19,
+      "volUsd": 11764.083760725693
+    },
+    {
+      "key": "1h",
+      "windowSec": 3600,
+      "pct": -0.0017,
+      "txs": 440,
+      "buyTxs": 264,
+      "sellTxs": 176,
+      "uniqueTraders": 193,
+      "volUsd": 440765.4583214613
+    },
+    {
+      "key": "4h",
+      "windowSec": 14400,
+      "pct": -0.037,
+      "txs": 1868,
+      "buyTxs": 1094,
+      "sellTxs": 774,
+      "uniqueTraders": 658,
+      "volUsd": 1858900.4049393744
+    },
+    {
+      "key": "24h",
+      "windowSec": 86400,
+      "pct": 0.2158,
+      "txs": 11442,
+      "buyTxs": 6514,
+      "sellTxs": 4928,
+      "uniqueTraders": 2371,
+      "volUsd": 10061110.276967816
+    },
+    {
+      "key": "1m",
+      "windowSec": 60,
+      "pct": -0.0056,
+      "txs": 4,
+      "buyTxs": 3,
+      "sellTxs": 1,
+      "uniqueTraders": 4,
+      "volUsd": 928.682038043829
+    }
+  ],
+  "jev": {
+    "emptyRoomProb": 0.71,
+    "fadingProb": 0.62,
+    "agreement": "lean",
+    "latencyMs": 329
+  },
+  "receipts": [
+    {
+      "call": "token",
+      "path": "/v1/dex/token",
+      "fetchedAt": "2026-09-30T16:58:25.347Z",
+      "bodySha256": "46cdc5afe44d90b11f4af8833c8997a8ac17c90da5c149455d78f7d8550faf55"
+    },
+    {
+      "call": "pools",
+      "path": "/v1/dex/token/pools",
+      "fetchedAt": "2026-09-30T16:58:24.970Z",
+      "bodySha256": "5cf1c13477c9cf82e976b25690c4f886a3c457b7cdf098338e47461bddeb950a"
+    }
+  ],
+  "data": {
+    "universeAt": "2026-09-30T11:17:44.619Z",
+    "peerUniverse": "snapshot-universe",
+    "eligibleN": 1083,
+    "mcPriceAnomaly": false,
+    "stsReported": 5,
+    "stsUsable": 5
+  },
+  "meta": {
+    "why": "QNT — +21.1% over 24h; 2371 CMC-reported unique traders; $4,243 per reported trader.",
+    "falsifiers": {
+      "empty_room": "invalid if trader breadth falls to p25",
+      "fading": "invalid if short windows return positive with density ≥ 1×"
+    }
+  }
+}

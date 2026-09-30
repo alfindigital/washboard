@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { readFileSync } from "fs";
-import { drillFilePath } from "@/lib/drill-index";
+import { existsSync } from "fs";
+import { drillFilePath, loadDrillIndex } from "@/lib/drill-index";
 import { DrillCard } from "@/components/DrillCard";
 import { DrillSearch } from "@/components/DrillSearch";
 import type { DrillRecord } from "@/types";
@@ -9,8 +10,11 @@ export const dynamic = "force-dynamic";
 
 function loadRecord(id: string): DrillRecord | null {
   if (!/^[\w.:-]{3,140}$/.test(id)) return null;
+  const hit = loadDrillIndex().get(id);
+  if (hit) return hit.record;
   try {
-    return JSON.parse(readFileSync(drillFilePath(id), "utf8")) as DrillRecord;
+    const p = drillFilePath(id);
+    return existsSync(p) ? (JSON.parse(readFileSync(p, "utf8")) as DrillRecord) : null;
   } catch {
     return null;
   }

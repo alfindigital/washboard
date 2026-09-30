@@ -1,0 +1,87 @@
+{
+  "id": "Base:0x822419392804df483fa504dcf79606857f2eded4",
+  "generatedAt": "2026-09-30T16:57:29.906Z",
+  "rulesVersion": "washboard-rules-1.0.0",
+  "mode": "live",
+  "subject": {
+    "platform": "Base",
+    "address": "0x822419392804df483fa504dcf79606857f2eded4",
+    "symbol": "67OHIO",
+    "name": "67 Ohio",
+    "priceUsd": 0.00026284420169879295,
+    "pc24h": 1.7142,
+    "poolAgeDays": 1.0963762268518518,
+    "mcap": 262844.201698793,
+    "liqUsd": 22488.24819515706
+  },
+  "flags": {
+    "empty_room": {
+      "state": "INSUFFICIENT",
+      "level": "INSUFFICIENT",
+      "reasons": [
+        "no window stats (sts[] empty) — CMC did not report"
+      ],
+      "falsifier": "n/a — provider fields missing"
+    },
+    "fading": {
+      "state": "INSUFFICIENT",
+      "level": "INSUFFICIENT",
+      "reasons": [
+        "no window stats (sts[] empty) — CMC did not report"
+      ],
+      "falsifier": "n/a — provider fields missing"
+    }
+  },
+  "metrics": {
+    "ut24h": null,
+    "utPercentile": null,
+    "churn24h": null,
+    "usdPerTrader": null,
+    "pace": {
+      "1h": null,
+      "4h": null
+    },
+    "momentum": {
+      "5m": null,
+      "1h": null,
+      "4h": null,
+      "24h": null
+    }
+  },
+  "ladder": [],
+  "jev": {
+    "emptyRoomProb": 0.69,
+    "fadingProb": 0.44,
+    "agreement": "unavailable",
+    "latencyMs": 301
+  },
+  "receipts": [
+    {
+      "call": "token",
+      "path": "/v1/dex/token",
+      "fetchedAt": "2026-09-30T16:57:29.468Z",
+      "bodySha256": "407060a48a257ba1b6165a19d6a5abc035dbe2e233189b4cc18cc462dc84159f"
+    },
+    {
+      "call": "pools",
+      "path": "/v1/dex/token/pools",
+      "fetchedAt": "2026-09-30T16:57:29.925Z",
+      "bodySha256": "2f6e90eeabb2f2443aba0f946f2cb5c2a88f7502962c66dc0d6daf836e68aa78"
+    }
+  ],
+  "data": {
+    "universeAt": "2026-09-30T11:17:44.619Z",
+    "peerUniverse": "snapshot-universe",
+    "eligibleN": 1083,
+    "mcPriceAnomaly": false,
+    "stsReported": 5,
+    "stsUsable": 0
+  },
+  "meta": {
+    "why": "67OHIO — +171.4% over 24h; unique traders unreported.",
+    "falsifiers": {
+      "empty_room": "n/a — provider fields missing",
+      "fading": "n/a — provider fields missing"
+    }
+  }
+}

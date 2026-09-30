@@ -291,6 +291,8 @@ export interface DrillRecord {
     peerUniverse: "snapshot-universe";
     eligibleN: number;
     mcPriceAnomaly: boolean;
+    stsReported: number;
+    stsUsable: number;
   };
   meta: {
     why: string;

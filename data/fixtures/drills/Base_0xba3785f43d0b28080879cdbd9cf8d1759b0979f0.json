@@ -1,0 +1,100 @@
+{
+  "id": "Base:0xba3785f43d0b28080879cdbd9cf8d1759b0979f0",
+  "generatedAt": "2026-09-30T16:57:21.293Z",
+  "rulesVersion": "washboard-rules-1.0.0",
+  "mode": "live",
+  "subject": {
+    "platform": "Base",
+    "address": "0xba3785f43d0b28080879cdbd9cf8d1759b0979f0",
+    "symbol": "FROG",
+    "name": "frog coin",
+    "priceUsd": 0.0002358780472466697,
+    "pc24h": 1.4649,
+    "poolAgeDays": 0.8681515393518519,
+    "mcap": 235878.0472466697,
+    "liqUsd": 21236.647893469282
+  },
+  "flags": {
+    "empty_room": {
+      "state": "EMPTY_ROOM",
+      "level": "DANGER",
+      "reasons": [
+        "24h move +146.5% on 31 reported unique traders",
+        "trader breadth ≤ p25 of peer universe (p25=53)",
+        "$8,024 per reported trader ≥ p75 ($5166)"
+      ],
+      "falsifier": "invalid if reported unique traders rise above p50 of peers"
+    },
+    "fading": {
+      "state": "INSUFFICIENT",
+      "level": "INSUFFICIENT",
+      "reasons": [
+        "1h/4h windows missing — cannot read trajectory"
+      ],
+      "falsifier": "n/a — window data missing"
+    }
+  },
+  "metrics": {
+    "ut24h": 31,
+    "utPercentile": 0.18888888888888888,
+    "churn24h": 7.903225806451613,
+    "usdPerTrader": 8024.162536267622,
+    "pace": {
+      "1h": null,
+      "4h": null
+    },
+    "momentum": {
+      "5m": null,
+      "1h": null,
+      "4h": null,
+      "24h": 1.4649
+    }
+  },
+  "ladder": [
+    {
+      "key": "24h",
+      "windowSec": 86400,
+      "pct": 1.4649,
+      "txs": 245,
+      "buyTxs": 141,
+      "sellTxs": 104,
+      "uniqueTraders": 31,
+      "volUsd": 248749.03862429628
+    }
+  ],
+  "jev": {
+    "emptyRoomProb": 0.9,
+    "fadingProb": 0.54,
+    "agreement": "consensus",
+    "latencyMs": 348
+  },
+  "receipts": [
+    {
+      "call": "token",
+      "path": "/v1/dex/token",
+      "fetchedAt": "2026-09-30T16:57:21.309Z",
+      "bodySha256": "4143b4fd412b344d09ee02452d636ed417eb9c4807b0a4aa781a8370317bcfa2"
+    },
+    {
+      "call": "pools",
+      "path": "/v1/dex/token/pools",
+      "fetchedAt": "2026-09-30T16:57:21.302Z",
+      "bodySha256": "a41197d775de7f786515434a47d7b2163642da3c4cd9a3774afa14e7b304cfdb"
+    }
+  ],
+  "data": {
+    "universeAt": "2026-09-30T11:17:44.619Z",
+    "peerUniverse": "snapshot-universe",
+    "eligibleN": 1083,
+    "mcPriceAnomaly": false,
+    "stsReported": 5,
+    "stsUsable": 1
+  },
+  "meta": {
+    "why": "FROG — +146.5% over 24h; 31 CMC-reported unique traders; $8,024 per reported trader.",
+    "falsifiers": {
+      "empty_room": "invalid if reported unique traders rise above p50 of peers",
+      "fading": "n/a — window data missing"
+    }
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "id": "Solana:JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+  "generatedAt": "2026-09-30T16:57:34.211Z",
+  "rulesVersion": "washboard-rules-1.0.0",
+  "mode": "live",
+  "subject": {
+    "platform": "Solana",
+    "address": "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN",
+    "symbol": "JUP",
+    "name": "Jupiter",
+    "priceUsd": 0.3333282143376092,
+    "pc24h": 0.0147,
+    "poolAgeDays": 747.3714954976851,
+    "mcap": 2287127024.8917546,
+    "liqUsd": 4827451.438426525
+  },
+  "flags": {
+    "empty_room": {
+      "state": "NO_MOVE",
+      "level": "CLEAN",
+      "reasons": [
+        "24h move 0.6% below +3% guard"
+      ],
+      "falsifier": "invalid if 24h move ≥ +3%"
+    },
+    "fading": {
+      "state": "NO_MOVE",
+      "level": "CLEAN",
+      "reasons": [
+        "24h move 0.6% below +2% guard"
+      ],
+      "falsifier": "invalid if 24h move ≥ +2%"
+    }
+  },
+  "metrics": {
+    "ut24h": 7167,
+    "utPercentile": 0.948905109489051,
+    "churn24h": 8.362215710897168,
+    "usdPerTrader": 1410.0738957759752,
+    "pace": {
+      "1h": 1.1954792800334868,
+      "4h": 1.0632063624947676
+    },
+    "momentum": {
+      "5m": 0.0014,
+      "1h": 0.015,
+      "4h": -0.0197,
+      "24h": 0.0064
+    }
+  },
+  "ladder": [
+    {
+      "key": "5m",
+      "windowSec": 300,
+      "pct": 0.0014,
+      "txs": 129,
+      "buyTxs": 46,
+      "sellTxs": 83,
+      "uniqueTraders": 58,
+      "volUsd": 28931.569830726727
+    },
+    {
+      "key": "1h",
+      "windowSec": 3600,
+      "pct": 0.015,
+      "txs": 1434,
+      "buyTxs": 767,
+      "sellTxs": 667,
+      "uniqueTraders": 357,
+      "volUsd": 230289.17752161386
+    },
+    {
+      "key": "4h",
+      "windowSec": 14400,
+      "pct": -0.0197,
+      "txs": 8958,
+      "buyTxs": 4360,
+      "sellTxs": 4598,
+      "uniqueTraders": 1270,
+      "volUsd": 1850826.8399239816
+    },
+    {
+      "key": "24h",
+      "windowSec": 86400,
+      "pct": 0.0064,
+      "txs": 59932,
+      "buyTxs": 29567,
+      "sellTxs": 30365,
+      "uniqueTraders": 7167,
+      "volUsd": 10105999.611026414
+    },
+    {
+      "key": "1m",
+      "windowSec": 60,
+      "pct": 0.0022,
+      "txs": 43,
+      "buyTxs": 21,
+      "sellTxs": 22,
+      "uniqueTraders": 23,
+      "volUsd": 12783.83690057324
+    }
+  ],
+  "jev": {
+    "emptyRoomProb": 0.69,
+    "fadingProb": 0.45,
+    "agreement": "unavailable",
+    "latencyMs": 324
+  },
+  "receipts": [
+    {
+      "call": "token",
+      "path": "/v1/dex/token",
+      "fetchedAt": "2026-09-30T16:57:34.226Z",
+      "bodySha256": "5e0ae0b36776cd645e24f1b165d3d73545c60489378cb1bf31d1bedeaa5d01f8"
+    },
+    {
+      "call": "pools",
+      "path": "/v1/dex/token/pools",
+      "fetchedAt": "2026-09-30T16:57:33.797Z",
+      "bodySha256": "6c8fd7a15b64c81c079ffbf0298223f030e80a3c6e74ea03aed6539cb60f3755"
+    }
+  ],
+  "data": {
+    "universeAt": "2026-09-30T11:17:44.619Z",
+    "peerUniverse": "snapshot-universe",
+    "eligibleN": 1083,
+    "mcPriceAnomaly": false,
+    "stsReported": 5,
+    "stsUsable": 5
+  },
+  "meta": {
+    "why": "JUP — +1.5% over 24h; 7167 CMC-reported unique traders; $1,410 per reported trader.",
+    "falsifiers": {
+      "empty_room": "invalid if 24h move ≥ +3%",
+      "fading": "invalid if 24h move ≥ +2%"
+    }
+  }
+}

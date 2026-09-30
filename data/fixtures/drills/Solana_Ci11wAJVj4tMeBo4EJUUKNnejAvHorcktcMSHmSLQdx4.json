@@ -1,0 +1,118 @@
+{
+  "id": "Solana:Ci11wAJVj4tMeBo4EJUUKNnejAvHorcktcMSHmSLQdx4",
+  "generatedAt": "2026-09-30T16:57:25.598Z",
+  "rulesVersion": "washboard-rules-1.0.0",
+  "mode": "live",
+  "subject": {
+    "platform": "Solana",
+    "address": "Ci11wAJVj4tMeBo4EJUUKNnejAvHorcktcMSHmSLQdx4",
+    "symbol": "DOGE",
+    "name": "Dogecoin",
+    "priceUsd": 0.07459909632712841,
+    "pc24h": -0.0004,
+    "poolAgeDays": null,
+    "mcap": 74599096.11945407,
+    "liqUsd": 12099.27030870729
+  },
+  "flags": {
+    "empty_room": {
+      "state": "NO_MOVE",
+      "level": "CLEAN",
+      "reasons": [
+        "24h move -0.0% below +3% guard"
+      ],
+      "falsifier": "invalid if 24h move ≥ +3%"
+    },
+    "fading": {
+      "state": "NO_MOVE",
+      "level": "CLEAN",
+      "reasons": [
+        "24h move -0.0% below +2% guard"
+      ],
+      "falsifier": "invalid if 24h move ≥ +2%"
+    }
+  },
+  "metrics": {
+    "ut24h": 6,
+    "utPercentile": 0.010948905109489052,
+    "churn24h": 10.333333333333334,
+    "usdPerTrader": 49738.96156537945,
+    "pace": {
+      "1h": 12,
+      "4h": 5
+    },
+    "momentum": {
+      "5m": null,
+      "1h": -0.0003,
+      "4h": -0.0001,
+      "24h": -0.0003
+    }
+  },
+  "ladder": [
+    {
+      "key": "1h",
+      "windowSec": 3600,
+      "pct": -0.0003,
+      "txs": 6,
+      "buyTxs": 3,
+      "sellTxs": 3,
+      "uniqueTraders": 3,
+      "volUsd": 41018.46271477309
+    },
+    {
+      "key": "4h",
+      "windowSec": 14400,
+      "pct": -0.0001,
+      "txs": 10,
+      "buyTxs": 5,
+      "sellTxs": 5,
+      "uniqueTraders": 5,
+      "volUsd": 41033.84629611531
+    },
+    {
+      "key": "24h",
+      "windowSec": 86400,
+      "pct": -0.0003,
+      "txs": 62,
+      "buyTxs": 31,
+      "sellTxs": 31,
+      "uniqueTraders": 6,
+      "volUsd": 298433.7693922767
+    }
+  ],
+  "jev": {
+    "emptyRoomProb": 0.91,
+    "fadingProb": 0.66,
+    "agreement": "unavailable",
+    "latencyMs": 271
+  },
+  "receipts": [
+    {
+      "call": "token",
+      "path": "/v1/dex/token",
+      "fetchedAt": "2026-09-30T16:57:25.200Z",
+      "bodySha256": "e0c1634c8f02062225aa48b3d200f408bef7e7832e35857b0125882513e50672"
+    },
+    {
+      "call": "pools",
+      "path": "/v1/dex/token/pools",
+      "fetchedAt": "2026-09-30T16:57:25.615Z",
+      "bodySha256": "c591d429f395a876fc6db7117c6d11e838f009f5e3224970939ffb41d379758c"
+    }
+  ],
+  "data": {
+    "universeAt": "2026-09-30T11:17:44.619Z",
+    "peerUniverse": "snapshot-universe",
+    "eligibleN": 1083,
+    "mcPriceAnomaly": false,
+    "stsReported": 5,
+    "stsUsable": 3
+  },
+  "meta": {
+    "why": "DOGE — -0.0% over 24h; 6 CMC-reported unique traders; $49,739 per reported trader.",
+    "falsifiers": {
+      "empty_room": "invalid if 24h move ≥ +3%",
+      "fading": "invalid if 24h move ≥ +2%"
+    }
+  }
+}
