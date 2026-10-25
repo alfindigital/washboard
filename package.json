@@ -14,7 +14,7 @@
     "@remotion/bundler": "4.0.410",
     "@remotion/cli": "4.0.410",
     "@remotion/renderer": "4.0.410",
-    "next": "15.5.27",
+    "next": "15.5.28",
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "remotion": "4.0.410",
